@@ -1,348 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Our Memories 💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Photoshoot</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #0b0b0b;
-      --card: #141414;
-      --text: #ffffff;
-      --muted: rgba(255,255,255,.65);
-      --accent: #ffd1dc;
-      --radius: 18px;
-      --safe-top: env(safe-area-inset-top);
-      --safe-bottom: env(safe-area-inset-bottom);
-    }
+<style>
+:root{
+  --bg:#0f0f12;
+  --text:#ffffff;
+  --muted:#aaaaaa;
+}
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
 
-    html, body { height: 100%; }
+header{
+  text-align:center;
+  padding:80px 20px 40px;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: radial-gradient(1200px 600px at 50% -10%, #1a1a1a, var(--bg));
-      color: var(--text);
-      overflow-x: hidden;
-    }
+header h1{
+  font-family:'Playfair Display',serif;
+  font-size:42px;
+  font-weight:600;
+  letter-spacing:1px;
+}
 
-    /* HERO (mobile-first) */
-    .hero {
-      min-height: 100svh;
-      padding: calc(24px + var(--safe-top)) 20px 28px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75)),
-        url('images/DSC_5412.JPG') center/cover no-repeat;
-    }
+header p{
+  margin-top:15px;
+  color:var(--muted);
+  font-size:15px;
+}
 
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 7vw, 3.2rem);
-      margin: 0 0 10px;
-      letter-spacing: .4px;
-    }
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:12px;
+  padding:20px;
+}
 
-    .hero p {
-      max-width: 34ch;
-      margin: 0 auto 22px;
-      font-size: 1.05rem;
-      color: var(--muted);
-    }
+.gallery img{
+  width:100%;
+  border-radius:18px;
+  cursor:pointer;
+  transition:transform .4s ease, box-shadow .4s ease;
+}
 
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 22px;
-      border-radius: 999px;
-      background: #fff;
-      color: #000;
-      border: none;
-      font-weight: 600;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .cta:active { transform: translateY(1px) scale(.98); }
+.gallery img:hover{
+  transform:scale(1.04);
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
 
-    /* SECTION */
-    .section {
-      padding: 26px 16px 10px;
-    }
+button.primary{
+  padding:14px 30px;
+  border-radius:40px;
+  border:none;
+  background:white;
+  color:black;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 10px 40px rgba(255,255,255,.15);
+  transition:.3s ease;
+}
 
-    .title {
-      text-align: center;
-      margin: 22px 0 14px;
-    }
+button.primary:hover{transform:translateY(-3px)}
 
-    .title h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.9rem;
-      margin: 0 0 6px;
-    }
+.center{text-align:center;margin:60px 0}
 
-    .title span {
-      font-size: .95rem;
-      color: var(--muted);
-    }
+/* Lightbox */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:10000;
+}
 
-    /* GALLERY (touch-first cards) */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      padding: 10px 6px 70px;
-    }
+.lightbox img{
+  max-width:95%;
+  max-height:80vh;
+  border-radius:20px;
+}
 
-    @media (min-width: 520px) {
-      .gallery { grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 14px 14px 80px; }
-    }
-    @media (min-width: 900px) {
-      .gallery { grid-template-columns: repeat(4, 1fr); }
-    }
+.lightbox button{
+  position:absolute;
+  top:20px;
+  right:20px;
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  font-weight:600;
+  cursor:pointer;
+}
 
-    .card {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--card);
-      aspect-ratio: 3 / 4;
-      touch-action: manipulation;
-    }
+/* Slideshow */
+#slideshow{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:20000;
+}
 
-    .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      transition: transform .5s ease, filter .5s ease;
-    }
+#slideImg{
+  max-width:95%;
+  max-height:85vh;
+  object-fit:contain;
+  animation:kenburns 6s ease-in-out infinite alternate;
+}
 
-    .card::after {
-      content: '❤';
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      font-size: 2.4rem;
-      color: #fff;
-      opacity: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.05));
-      transition: opacity .35s ease;
-      pointer-events: none;
-    }
+@keyframes kenburns{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
+}
 
-    .card:active img { transform: scale(1.08); filter: brightness(.9); }
-    .card:active::after { opacity: 1; }
+footer{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--muted);
+  font-size:14px;
+}
 
-    /* LIGHTBOX (mobile gestures) */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.95);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 12px 12px calc(12px + var(--safe-bottom));
-    }
-    .lightbox.active { display: flex; }
+#typewriter{max-width:500px;margin:0 auto;line-height:1.6}
 
-    .lightbox img {
-      max-width: 100%;
-      max-height: 86svh;
-      border-radius: 16px;
-      animation: pop .25s ease;
-    }
+/* Floating ambient glow */
+body::before{
+  content:"";
+  position:fixed;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);
+  top:-200px;
+  left:-200px;
+  animation:float 15s infinite alternate ease-in-out;
+  z-index:-1;
+}
 
-    @keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes float{
+  from{transform:translate(0,0)}
+  to{transform:translate(200px,150px)}
+}
 
-    .lb-top {
-      position: absolute;
-      top: calc(10px + var(--safe-top));
-      left: 10px; right: 10px;
-      display: flex; align-items: center; justify-content: space-between;
-      color: #fff; font-weight: 600;
-    }
+@media(max-width:600px){
+  header h1{font-size:30px}
+}
 
-    .btn {
-      background: rgba(255,255,255,.12);
-      border: none; color: #fff;
-      padding: 10px 14px; border-radius: 999px;
-    }
-
-    .hint {
-      position: absolute; bottom: calc(16px + var(--safe-bottom)); left: 0; right: 0;
-      text-align: center; color: var(--muted); font-size: .85rem;
-    }
-
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 22px 16px calc(22px + var(--safe-bottom));
-      color: var(--muted);
-      font-size: .9rem;
-    }
-  </style>
+</style>
 </head>
 <body>
 
-<!-- Password Overlay -->
-<div id="passwordOverlay" style="position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999;">
-  <div style="background:#111;padding:40px;border-radius:20px;text-align:center;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.6);">
-    <h2 style="color:white;margin-bottom:10px;">Private Gallery</h2>
-    <p style="color:#aaa;font-size:14px;margin-bottom:20px;">Enter password to continue</p>
-    <input id="passwordInput" type="password" placeholder="Password" 
-      style="width:100%;padding:12px;border-radius:10px;border:none;margin-bottom:15px;font-size:16px;text-align:center;" />
-    <button onclick="checkPassword()" 
-      style="width:100%;padding:12px;border-radius:10px;border:none;background:#fff;font-weight:bold;cursor:pointer;">
-      Unlock
-    </button>
-    <p id="errorMsg" style="color:#ff4d4d;font-size:13px;margin-top:10px;display:none;">Incorrect password</p>
-  </div>
+<header>
+  <h1>The Photoshoot</h1>
+  <p>Oscar • Nevada • Maci</p>
+</header>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="center">
+  <button class="primary" onclick="startSlideshow()">▶ Watch The Moments</button>
+</div>
+
+<footer>
+  <p id="typewriter"></p>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button onclick="closeLightbox()">Close</button>
+  <img id="lightboxImg">
+</div>
+
+<div id="slideshow">
+  <img id="slideImg">
+  <button onclick="stopSlideshow()" style="position:absolute;top:20px;right:20px;">Close</button>
 </div>
 
 <script>
-// Generate SHA-256 hash of the correct password ("oscar2019")
-let correctHash = null;
+const images=[
+"DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG","DSC_5477.JPG","DSC_5491.JPG","DSC_5498.JPG","DSC_5526.JPG","DSC_5540.JPG","DSC_5553.JPG","DSC_5568.JPG","DSC_5571.JPG","DSC_5601.JPG","DSC_5609.JPG","DSC_5611.JPG","DSC_5617.JPG","DSC_5631.JPG","DSC_5654.JPG","DSC_5670.JPG","DSC_5676.JPG","DSC_5690.JPG","DSC_5705.JPG","DSC_5709 (2).JPG","DSC_5709.JPG","DSC_5716.JPG","DSC_5729.JPG","DSC_5734 (2).JPG","DSC_5734.JPG","DSC_5741.JPG","DSC_5756.JPG","DSC_5758.JPG","DSC_5779.JPG","DSC_5785.JPG","DSC_4633.JPG","DSC_4639.JPG","DSC_4652.JPG","DSC_4668.JPG","DSC_4676.JPG","DSC_4699.JPG","DSC_4710.JPG","DSC_4718.JPG","DSC_4738.JPG","DSC_4751.JPG","DSC_4755.JPG","DSC_4762.JPG","DSC_4771.JPG","DSC_4777.JPG","DSC_4786.JPG","DSC_4793.JPG","DSC_4818.JPG","DSC_4841.JPG","DSC_4847.JPG","DSC_4862.JPG","DSC_4875.JPG","DSC_4893.JPG","DSC_4915 - Copy.JPG","DSC_4915.JPG","DSC_4940.JPG","DSC_4968.JPG","DSC_4978.JPG","DSC_4993.JPG","DSC_5028.JPG","DSC_5048.JPG","DSC_5052.JPG","DSC_5056.JPG","DSC_5078.JPG","DSC_5088.JPG","DSC_5103.JPG","DSC_5119 - Copy.JPG","DSC_5119.JPG","DSC_5140.JPG","DSC_5150.JPG","DSC_5159.JPG","DSC_5170.JPG","DSC_5178.JPG","DSC_5190.JPG","DSC_5207.JPG","DSC_5227.JPG","DSC_5244.JPG","DSC_5253.JPG","DSC_5266.JPG","DSC_5290.JPG","DSC_5302.JPG","DSC_5315.JPG","DSC_5323.JPG","DSC_5324.JPG","DSC_5337.JPG","DSC_5340.JPG","DSC_5355.JPG","DSC_5379.JPG","DSC_5387.JPG"
+];
 
-async function generateCorrectHash() {
-  correctHash = await sha256("oscar2019");
+const gallery=document.getElementById("gallery");
+images.forEach(src=>{
+  const img=document.createElement("img");
+  img.src="images/"+src;
+  img.loading="lazy";
+  img.onclick=()=>openLightbox(img.src);
+  gallery.appendChild(img);
+});
+
+function openLightbox(src){
+  document.getElementById("lightboxImg").src=src;
+  document.getElementById("lightbox").style.display="flex";
+}
+function closeLightbox(){document.getElementById("lightbox").style.display="none"}
+
+let slideIndex=0,interval;
+function startSlideshow(){
+  document.getElementById("slideshow").style.display="flex";
+  showSlide();
+  interval=setInterval(nextSlide,4000);
+}
+function showSlide(){
+  document.getElementById("slideImg").src="images/"+images[slideIndex];
+}
+function nextSlide(){
+  slideIndex=(slideIndex+1)%images.length;
+  showSlide();
+}
+function stopSlideshow(){
+  clearInterval(interval);
+  document.getElementById("slideshow").style.display="none";
 }
 
-generateCorrectHash();
-
-async function sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function checkPassword() {
-  const input = document.getElementById('passwordInput').value;
-  const hash = await sha256(input);
-  if (hash === correctHash) {
-    document.getElementById('passwordOverlay').style.display = 'none';
-  } else {
-    document.getElementById('errorMsg').style.display = 'block';
+const text="A day we dressed up, laughed too much, and captured moments we’ll never recreate — only relive.";
+let i=0;
+function type(){
+  if(i<text.length){
+    document.getElementById("typewriter").innerHTML+=text.charAt(i);
+    i++;setTimeout(type,35);
   }
 }
-
-// Prevent viewing source images directly by disabling right-click
-window.addEventListener('contextmenu', e => e.preventDefault());
+window.onload=type;
 </script>
 
-  <section class="hero">
-    <div>
-      <h1>Our Memories</h1>
-      <p>A little gallery of moments that mean the world to me.</p>
-      <button class="cta" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Tap to Explore ✨</button>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="title">
-      <h2>Captured Moments</h2>
-      <span>Tap any photo • swipe left/right</span>
-    </div>
-    <div id="gallery" class="gallery"></div>
-  </section>
-
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <div class="lb-top">
-      <button class="btn" onclick="closeLB()">Close</button>
-      <div id="counter"></div>
-      <button class="btn" id="downloadBtn">Download</button>
-    </div>
-    <img id="lbImg" alt="" />
-    <div class="hint">Swipe ◀ ▶ or tap Download</div>
-  </div>
-
-  <footer>
-    Made with ❤ just for you
-  </footer>
-
-  <script>
-    const images = [
-      "DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG","DSC_5477.JPG","DSC_5491.JPG","DSC_5498.JPG",
-      "DSC_5526.JPG","DSC_5540.JPG","DSC_5553.JPG","DSC_5568.JPG","DSC_5571.JPG","DSC_5601.JPG",
-      "DSC_5609.JPG","DSC_5611.JPG","DSC_5617.JPG","DSC_5631.JPG","DSC_5654.JPG","DSC_5670.JPG",
-      "DSC_5676.JPG","DSC_5690.JPG","DSC_5705.JPG","DSC_5709 (2).JPG","DSC_5709.JPG",
-      "DSC_5716.JPG","DSC_5729.JPG","DSC_5734 (2).JPG","DSC_5734.JPG","DSC_5741.JPG",
-      "DSC_5756.JPG","DSC_5758.JPG","DSC_5779.JPG","DSC_5785.JPG","DSC_4633.JPG",
-      "DSC_4639.JPG","DSC_4652.JPG","DSC_4668.JPG","DSC_4676.JPG","DSC_4699.JPG",
-      "DSC_4710.JPG","DSC_4718.JPG","DSC_4738.JPG","DSC_4751.JPG","DSC_4755.JPG",
-      "DSC_4762.JPG","DSC_4771.JPG","DSC_4777.JPG","DSC_4786.JPG","DSC_4793.JPG",
-      "DSC_4818.JPG","DSC_4841.JPG","DSC_4847.JPG","DSC_4862.JPG","DSC_4875.JPG",
-      "DSC_4893.JPG","DSC_4915 - Copy.JPG","DSC_4915.JPG","DSC_4940.JPG","DSC_4968.JPG",
-      "DSC_4978.JPG","DSC_4993.JPG","DSC_5028.JPG","DSC_5048.JPG","DSC_5052.JPG",
-      "DSC_5056.JPG","DSC_5078.JPG","DSC_5088.JPG","DSC_5103.JPG","DSC_5119 - Copy.JPG",
-      "DSC_5119.JPG","DSC_5140.JPG","DSC_5150.JPG","DSC_5159.JPG","DSC_5170.JPG",
-      "DSC_5178.JPG","DSC_5190.JPG","DSC_5207.JPG","DSC_5227.JPG","DSC_5244.JPG",
-      "DSC_5253.JPG","DSC_5266.JPG","DSC_5290.JPG","DSC_5302.JPG","DSC_5315.JPG",
-      "DSC_5323.JPG","DSC_5324.JPG","DSC_5337.JPG","DSC_5340.JPG","DSC_5355.JPG",
-      "DSC_5379.JPG","DSC_5387.JPG"
-    ];
-
-    const gallery = document.getElementById('gallery');
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lbImg');
-    const counter = document.getElementById('counter');
-    let index = 0;
-
-    // Build cards (lazy loading)
-    images.forEach((img, i) => {
-      const d = document.createElement('div');
-      d.className = 'card';
-      const im = document.createElement('img');
-      im.loading = 'lazy';
-      im.src = `images/${img}`;
-      im.alt = img;
-      d.appendChild(im);
-      d.addEventListener('click', () => openLB(i));
-      gallery.appendChild(d);
-    });
-
-    function openLB(i) {
-      index = i;
-      updateLB();
-      lb.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeLB() {
-      lb.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    function updateLB() {
-      lbImg.src = `images/${images[index]}`;
-      counter.textContent = `${index + 1} / ${images.length}`;
-    }
-
-    // Swipe support
-    let startX = 0;
-    lb.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
-    lb.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) {
-        index = dx < 0 ? Math.min(index + 1, images.length - 1) : Math.max(index - 1, 0);
-        updateLB();
-      }
-    });
-
-    // Close on background tap
-    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
-  </script>
 </body>
 </html>
