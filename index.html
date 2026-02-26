@@ -18,131 +18,113 @@
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-body{
-  font-family:'Roboto',sans-serif;
+body {
+  font-family: 'Roboto', sans-serif;
   background:#0a0a0a;
   color:white;
   overflow-x:hidden;
+  margin:0;
 }
 
 /* HERO */
-.hero{
-  position:relative;
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
-
-.hero-slide{
+.hero-slide {
   position:absolute;
   inset:0;
   background-size:cover;
   background-position:center;
   opacity:0;
-  transition:opacity 2s ease-in-out;
-  animation:kenburns 20s infinite alternate ease-in-out;
+  transition:opacity 1.5s ease-in-out;
 }
-
-.hero-slide.active{ opacity:1; }
-
-@keyframes kenburns{
-  from{transform:scale(1);}
-  to{transform:scale(1.08);}
+.hero-slide.active {
+  opacity:1;
 }
-
-.hero-overlay{
+.hero-overlay {
   position:absolute;
   inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,.4),rgba(0,0,0,.9));
+  background:linear-gradient(to bottom, rgba(0,0,0,.3), rgba(0,0,0,.8));
 }
 
-.glass{
-  backdrop-filter:blur(12px);
-  background:rgba(255,255,255,0.08);
+/* GLASS BUTTONS */
+.glass {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.2);
   border-radius:50px;
-  padding:12px 28px;
+  padding:10px 25px;
   color:white;
-}
-
-/* FILM GRAIN */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:url('https://grainy-gradients.vercel.app/noise.svg');
-  opacity:.04;
-  pointer-events:none;
+  cursor:pointer;
+  margin:5px;
 }
 
 /* GALLERY */
-.gallery img{
+.gallery img {
   border-radius:18px;
   cursor:pointer;
-  transition:.4s ease;
+  transition:.3s ease;
 }
-.gallery img:hover{
-  transform:scale(1.05);
+.gallery img:hover {
+  transform: scale(1.05);
 }
 
 /* LIGHTBOX */
-.lightbox{
-  position:fixed;
+.lightbox {
+  position: fixed;
   inset:0;
-  background:black;
-  display:none;
+  background:rgba(0,0,0,0.95);
+  display: none;
   align-items:center;
   justify-content:center;
   flex-direction:column;
   z-index:5000;
 }
-
-.lightbox img{
+.lightbox img {
   max-width:95%;
   max-height:85vh;
   border-radius:20px;
 }
-
-.lb-ui{
+.lb-ui {
   position:absolute;
   top:20px;
   left:20px;
   right:20px;
   display:flex;
   justify-content:space-between;
-  transition:opacity .5s;
 }
 
 /* MEMORY MODE */
-.memory-mode{
-  position:fixed;
+.memory-mode {
+  position: fixed;
   inset:0;
   background:black;
   display:none;
   z-index:6000;
 }
-
-.memory-slide{
+.memory-slide {
   position:absolute;
   inset:0;
   background-size:cover;
   background-position:center;
   opacity:0;
-  transition:opacity 2s;
+  transition:opacity 1.5s;
 }
-.memory-slide.active{opacity:1;}
+.memory-slide.active { opacity:1; }
 
-footer{
+footer {
   text-align:center;
   padding:40px 0;
   color:rgba(255,255,255,.5);
 }
 </style>
 </head>
-
 <body>
 
 <!-- HERO -->
@@ -151,14 +133,10 @@ footer{
   <div class="hero-slide" id="slide2"></div>
   <div class="hero-overlay"></div>
   <div class="container position-relative">
-    <h1 class="display-4 fw-bold animate__animated animate__fadeInDown">
-      Our Photoshoot
-    </h1>
-    <p class="lead mt-3">
-      <span id="typed"></span>
-    </p>
+    <h1 class="display-4 fw-bold animate__animated animate__fadeInDown">Our Photoshoot</h1>
+    <p class="lead mt-3"><span id="typed"></span></p>
     <div class="mt-4">
-      <button class="glass me-2" onclick="scrollToGallery()">Explore</button>
+      <button class="glass" onclick="scrollToGallery()">Explore</button>
       <button class="glass" onclick="startMemory()">Memory Mode</button>
     </div>
   </div>
@@ -199,108 +177,90 @@ footer{
 <script>
 AOS.init();
 
-const images=[
-"DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG",
-"DSC_5477.JPG","DSC_5491.JPG","DSC_5498.JPG",
-"DSC_5526.JPG","DSC_5540.JPG"
+const images = [
+"DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG","DSC_5477.JPG",
+"DSC_5491.JPG","DSC_5498.JPG","DSC_5526.JPG","DSC_5540.JPG"
 ];
 
+/* HERO SLIDESHOW */
 let heroIndex=0;
 const s1=document.getElementById("slide1");
 const s2=document.getElementById("slide2");
 s1.style.backgroundImage=`url('images/${images[0]}')`;
-
 setInterval(()=>{
   heroIndex=(heroIndex+1)%images.length;
-  let next=s1.classList.contains("active")?s2:s1;
-  let current=s1.classList.contains("active")?s1:s2;
+  let next = s1.classList.contains("active") ? s2 : s1;
+  let current = s1.classList.contains("active") ? s1 : s2;
   next.style.backgroundImage=`url('images/${images[heroIndex]}')`;
   next.classList.add("active");
   current.classList.remove("active");
-},6000);
+},5000);
 
-/* Typed */
-new Typed("#typed",{
-strings:[
-"A day we dressed up.",
-"Laughed too much.",
-"Captured something timeless."
-],
-typeSpeed:50,
-backSpeed:30,
-loop:true
+/* Typed.js */
+new Typed("#typed", {
+  strings: ["A day we dressed up.","Laughed too much.","Captured timeless moments."],
+  typeSpeed:50,
+  backSpeed:30,
+  loop:true
 });
 
-/* Gallery Build */
+/* BUILD GALLERY */
 const gallery=document.getElementById("gallery");
 images.forEach((img,i)=>{
-gallery.innerHTML+=`
-<div class="col-6 col-md-4 col-lg-3" data-aos="zoom-in">
-<img src="images/${img}" class="img-fluid" onclick="openLB(${i})">
-</div>`;
+  gallery.innerHTML+=`<div class="col-6 col-md-4 col-lg-3" data-aos="zoom-in">
+  <img src="images/${img}" class="img-fluid" onclick="openLB(${i})">
+  </div>`;
 });
 
-/* Lightbox */
+/* LIGHTBOX */
 let currentIndex=0;
 const lb=document.getElementById("lightbox");
 const lbImg=document.getElementById("lbImg");
 const counter=document.getElementById("counter");
 
 function openLB(i){
-currentIndex=i;
-updateLB();
-lb.style.display="flex";
+  currentIndex=i;
+  updateLB();
+  lb.style.display="flex";
 }
-
 function updateLB(){
-lbImg.src=`images/${images[currentIndex]}`;
-counter.innerText=`${currentIndex+1} / ${images.length}`;
+  lbImg.src=`images/${images[currentIndex]}`;
+  counter.innerText=`${currentIndex+1} / ${images.length}`;
 }
-
-function closeLB(){
-lb.style.display="none";
-}
+function closeLB(){ lb.style.display="none"; }
 
 document.getElementById("downloadBtn").onclick=function(){
-const link=document.createElement("a");
-link.href=`images/${images[currentIndex]}`;
-link.download=images[currentIndex];
-link.click();
+  const link=document.createElement("a");
+  link.href=`images/${images[currentIndex]}`;
+  link.download=images[currentIndex];
+  link.click();
 };
 
-/* Swipe Support */
-const hammer=new Hammer(lb);
-hammer.on("swipeleft",()=>{
-currentIndex=(currentIndex+1)%images.length;
-updateLB();
-});
-hammer.on("swiperight",()=>{
-currentIndex=(currentIndex-1+images.length)%images.length;
-updateLB();
-});
+/* SWIPE SUPPORT */
+const hammer = new Hammer(lb);
+hammer.on("swipeleft",()=>{ currentIndex=(currentIndex+1)%images.length; updateLB(); });
+hammer.on("swiperight",()=>{ currentIndex=(currentIndex-1+images.length)%images.length; updateLB(); });
 
-/* Memory Mode */
+/* MEMORY MODE */
 function startMemory(){
-const mm=document.getElementById("memoryMode");
-mm.style.display="block";
-mm.innerHTML="";
-images.forEach((img,i)=>{
-mm.innerHTML+=`<div class="memory-slide ${i===0?'active':''}" style="background-image:url('images/${img}')"></div>`;
-});
-let slides=mm.querySelectorAll(".memory-slide");
-let idx=0;
-setInterval(()=>{
-slides[idx].classList.remove("active");
-idx=(idx+1)%slides.length;
-slides[idx].classList.add("active");
-},4000);
-mm.onclick=()=>mm.style.display="none";
+  const mm=document.getElementById("memoryMode");
+  mm.style.display="block";
+  mm.innerHTML="";
+  images.forEach((img,i)=>{
+    mm.innerHTML+=`<div class="memory-slide ${i===0?'active':''}" style="background-image:url('images/${img}')"></div>`;
+  });
+  const slides=mm.querySelectorAll(".memory-slide");
+  let idx=0;
+  const interval=setInterval(()=>{
+    slides[idx].classList.remove("active");
+    idx=(idx+1)%slides.length;
+    slides[idx].classList.add("active");
+  },4000);
+  mm.onclick=()=>{ mm.style.display="none"; clearInterval(interval); };
 }
 
-function scrollToGallery(){
-document.querySelector(".gallery").scrollIntoView({behavior:"smooth"});
-}
+/* SCROLL TO GALLERY */
+function scrollToGallery(){ document.querySelector(".gallery").scrollIntoView({behavior:"smooth"}); }
 </script>
-
 </body>
 </html>
