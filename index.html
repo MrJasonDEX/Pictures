@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Our Memories 💖</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --card: #141414;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.65);
+      --accent: #ffd1dc;
+      --radius: 18px;
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #1a1a1a, var(--bg));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* HERO (mobile-first) */
+    .hero {
+      min-height: 100svh;
+      padding: calc(24px + var(--safe-top)) 20px 28px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75)),
+        url('images/DSC_5412.JPG') center/cover no-repeat;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 7vw, 3.2rem);
+      margin: 0 0 10px;
+      letter-spacing: .4px;
+    }
+
+    .hero p {
+      max-width: 34ch;
+      margin: 0 auto 22px;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      background: #fff;
+      color: #000;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .cta:active { transform: translateY(1px) scale(.98); }
+
+    /* SECTION */
+    .section {
+      padding: 26px 16px 10px;
+    }
+
+    .title {
+      text-align: center;
+      margin: 22px 0 14px;
+    }
+
+    .title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      margin: 0 0 6px;
+    }
+
+    .title span {
+      font-size: .95rem;
+      color: var(--muted);
+    }
+
+    /* GALLERY (touch-first cards) */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 10px 6px 70px;
+    }
+
+    @media (min-width: 520px) {
+      .gallery { grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 14px 14px 80px; }
+    }
+    @media (min-width: 900px) {
+      .gallery { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--card);
+      aspect-ratio: 3 / 4;
+      touch-action: manipulation;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform .5s ease, filter .5s ease;
+    }
+
+    .card::after {
+      content: '❤';
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 2.4rem;
+      color: #fff;
+      opacity: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.05));
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+
+    .card:active img { transform: scale(1.08); filter: brightness(.9); }
+    .card:active::after { opacity: 1; }
+
+    /* LIGHTBOX (mobile gestures) */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 12px 12px calc(12px + var(--safe-bottom));
+    }
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 86svh;
+      border-radius: 16px;
+      animation: pop .25s ease;
+    }
+
+    @keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .lb-top {
+      position: absolute;
+      top: calc(10px + var(--safe-top));
+      left: 10px; right: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      color: #fff; font-weight: 600;
+    }
+
+    .btn {
+      background: rgba(255,255,255,.12);
+      border: none; color: #fff;
+      padding: 10px 14px; border-radius: 999px;
+    }
+
+    .hint {
+      position: absolute; bottom: calc(16px + var(--safe-bottom)); left: 0; right: 0;
+      text-align: center; color: var(--muted); font-size: .85rem;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 22px 16px calc(22px + var(--safe-bottom));
+      color: var(--muted);
+      font-size: .9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div>
+      <h1>Our Memories</h1>
+      <p>A little gallery of moments that mean the world to me.</p>
+      <button class="cta" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Tap to Explore ✨</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title">
+      <h2>Captured Moments</h2>
+      <span>Tap any photo • swipe left/right</span>
+    </div>
+    <div id="gallery" class="gallery"></div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox">
+    <div class="lb-top">
+      <button class="btn" onclick="closeLB()">Close</button>
+      <div id="counter"></div>
+      <div></div>
+    </div>
+    <img id="lbImg" alt="" />
+    <div class="hint">Swipe ◀ ▶ or tap Close</div>
+  </div>
+
+  <footer>
+    Made with ❤ just for you
+  </footer>
+
+  <script>
+    const images = [
+      "DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG","DSC_5477.JPG","DSC_5491.JPG","DSC_5498.JPG",
+      "DSC_5526.JPG","DSC_5540.JPG","DSC_5553.JPG","DSC_5568.JPG","DSC_5571.JPG","DSC_5601.JPG",
+      "DSC_5609.JPG","DSC_5611.JPG","DSC_5617.JPG","DSC_5631.JPG","DSC_5654.JPG","DSC_5670.JPG",
+      "DSC_5676.JPG","DSC_5690.JPG","DSC_5705.JPG","DSC_5709 (2).JPG","DSC_5709.JPG",
+      "DSC_5716.JPG","DSC_5729.JPG","DSC_5734 (2).JPG","DSC_5734.JPG","DSC_5741.JPG",
+      "DSC_5756.JPG","DSC_5758.JPG","DSC_5779.JPG","DSC_5785.JPG","DSC_4633.JPG",
+      "DSC_4639.JPG","DSC_4652.JPG","DSC_4668.JPG","DSC_4676.JPG","DSC_4699.JPG",
+      "DSC_4710.JPG","DSC_4718.JPG","DSC_4738.JPG","DSC_4751.JPG","DSC_4755.JPG",
+      "DSC_4762.JPG","DSC_4771.JPG","DSC_4777.JPG","DSC_4786.JPG","DSC_4793.JPG",
+      "DSC_4818.JPG","DSC_4841.JPG","DSC_4847.JPG","DSC_4862.JPG","DSC_4875.JPG",
+      "DSC_4893.JPG","DSC_4915 - Copy.JPG","DSC_4915.JPG","DSC_4940.JPG","DSC_4968.JPG",
+      "DSC_4978.JPG","DSC_4993.JPG","DSC_5028.JPG","DSC_5048.JPG","DSC_5052.JPG",
+      "DSC_5056.JPG","DSC_5078.JPG","DSC_5088.JPG","DSC_5103.JPG","DSC_5119 - Copy.JPG",
+      "DSC_5119.JPG","DSC_5140.JPG","DSC_5150.JPG","DSC_5159.JPG","DSC_5170.JPG",
+      "DSC_5178.JPG","DSC_5190.JPG","DSC_5207.JPG","DSC_5227.JPG","DSC_5244.JPG",
+      "DSC_5253.JPG","DSC_5266.JPG","DSC_5290.JPG","DSC_5302.JPG","DSC_5315.JPG",
+      "DSC_5323.JPG","DSC_5324.JPG","DSC_5337.JPG","DSC_5340.JPG","DSC_5355.JPG",
+      "DSC_5379.JPG","DSC_5387.JPG"
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const counter = document.getElementById('counter');
+    let index = 0;
+
+    // Build cards (lazy loading)
+    images.forEach((img, i) => {
+      const d = document.createElement('div');
+      d.className = 'card';
+      const im = document.createElement('img');
+      im.loading = 'lazy';
+      im.src = `images/${img}`;
+      im.alt = img;
+      d.appendChild(im);
+      d.addEventListener('click', () => openLB(i));
+      gallery.appendChild(d);
+    });
+
+    function openLB(i) {
+      index = i;
+      updateLB();
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLB() {
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function updateLB() {
+      lbImg.src = `images/${images[index]}`;
+      counter.textContent = `${index + 1} / ${images.length}`;
+    }
+
+    // Swipe support
+    let startX = 0;
+    lb.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+    lb.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) {
+        index = dx < 0 ? Math.min(index + 1, images.length - 1) : Math.max(index - 1, 0);
+        updateLB();
+      }
+    });
+
+    // Close on background tap
+    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+  </script>
+</body>
+</html>
