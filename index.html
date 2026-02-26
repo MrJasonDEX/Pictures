@@ -211,8 +211,14 @@
 </div>
 
 <script>
-// SHA-256 hash of "oscar2019"
-const correctHash = "4e0a7bff8b9c8f1bfa3c6e5d5db3f8b7b6e1c6d8d6a7f0b1c3e4d5f6a7b8c9d";
+// Generate SHA-256 hash of the correct password ("oscar2019")
+let correctHash = null;
+
+async function generateCorrectHash() {
+  correctHash = await sha256("oscar2019");
+}
+
+generateCorrectHash();
 
 async function sha256(message) {
   const msgBuffer = new TextEncoder().encode(message);
