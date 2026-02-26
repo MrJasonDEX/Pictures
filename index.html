@@ -1,201 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Our Memories 💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Our Memories 💖</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #0b0b0b;
-      --card: #141414;
-      --text: #fff;
-      --muted: rgba(255,255,255,.65);
-      --accent: #ffd1dc;
-      --radius: 18px;
-      --safe-top: env(safe-area-inset-top);
-      --safe-bottom: env(safe-area-inset-bottom);
-    }
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { margin:0; font-family:'Roboto', sans-serif; background:#0b0b0b; color:var(--text); overflow-x:hidden; }
+<style>
+:root {
+  --bg: #0b0b0b;
+  --card: #141414;
+  --text: #ffffff;
+  --muted: rgba(255,255,255,.65);
+  --accent: #ffd1dc;
+  --radius: 18px;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
 
-    /* HERO */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      color: var(--text);
-    }
-    .hero img {
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      z-index:0;
-      transition: opacity 1s ease;
-    }
-    .hero .overlay {
-      position:absolute;
-      top:0; left:0; right:0; bottom:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75));
-      z-index:1;
-    }
-    .hero .content {
-      position: relative;
-      z-index:2;
-      padding: 20px;
-    }
-    .hero h1 { font-size:clamp(2.2rem,7vw,3.2rem); margin-bottom:10px; }
-    .hero p { color:var(--muted); max-width:35ch; margin:0 auto 20px; font-size:1.1rem; }
-    .hero .btn-cta { background:white; color:black; font-weight:700; border-radius:30px; padding:12px 24px; }
+body {
+  background: radial-gradient(1200px 600px at 50% -10%, #1a1a1a, var(--bg));
+  color: var(--text);
+  font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+}
 
-    /* GALLERY */
-    .gallery { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); padding:20px; }
-    .card { border-radius:var(--radius); overflow:hidden; background:var(--card); position:relative; cursor:pointer; }
-    .card img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-    .card:hover img { transform:scale(1.05); }
+h1, h2 { font-family: 'Playfair Display', serif; }
+.hero {
+  min-height: 100vh;
+  padding: calc(24px + var(--safe-top)) 20px 28px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75)),
+              url('images/DSC_5412.JPG') center/cover no-repeat;
+}
+.hero h1 { font-size: clamp(2.5rem, 7vw, 3.5rem); margin-bottom: 12px; }
+.hero p { color: var(--muted); max-width: 34ch; margin: 0 auto 20px; }
+.cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 999px; background: #fff; color: #000;
+  font-weight: 600; text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.cta:hover { transform: scale(1.05); }
 
-    /* LIGHTBOX */
-    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.95); display:none; align-items:center; justify-content:center; z-index:1050; padding:20px; }
-    .lightbox.active { display:flex; }
-    .lightbox img { max-width:95%; max-height:85vh; border-radius:16px; }
-    .lb-top { position:absolute; top:20px; left:20px; right:20px; display:flex; justify-content:space-between; z-index:1060; }
-    .lb-top .btn { padding:10px 18px; border:none; border-radius:20px; background:white; color:black; font-weight:600; cursor:pointer; }
+.section { padding: 40px 15px 10px; }
+.title { text-align: center; margin-bottom: 25px; }
+.title span { font-size: .95rem; color: var(--muted); display:block; margin-top:4px; }
 
-    /* FOOTER */
-    footer { text-align:center; padding:40px 20px 20px; color:var(--muted); font-size:0.9rem; }
+.gallery { display: grid; grid-template-columns: repeat(2,1fr); gap:12px; }
+@media (min-width:520px) { .gallery { grid-template-columns: repeat(3,1fr); } }
+@media (min-width:900px) { .gallery { grid-template-columns: repeat(4,1fr); } }
 
-  </style>
+.card {
+  position: relative; border-radius: var(--radius); overflow: hidden; background: var(--card);
+  cursor:pointer; aspect-ratio: 3/4; transition: transform .3s ease;
+}
+.card img { width:100%; height:100%; object-fit:cover; transition: transform .3s ease; }
+.card:hover img { transform: scale(1.05); }
+.card::after {
+  content:'❤'; position:absolute; inset:0; display:grid; place-items:center;
+  font-size:2.4rem; color:#fff; opacity:0;
+  background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.05));
+  transition: opacity .35s ease;
+}
+.card:active::after { opacity:1; }
+
+.lightbox, #slideshow {
+  position:fixed; inset:0; display:none; background:rgba(0,0,0,.95);
+  align-items:center; justify-content:center; z-index:10000; flex-direction:column;
+  padding:20px;
+}
+.lightbox img, #slideshow img { max-width:95%; max-height:80vh; border-radius:16px; }
+
+.lb-top {
+  position:absolute; top:20px; left:20px; right:20px;
+  display:flex; justify-content:space-between; align-items:center; color:#fff;
+}
+.lb-top button {
+  background: rgba(255,255,255,.15); border:none; color:#fff; padding:10px 14px; border-radius:999px;
+  cursor:pointer; font-weight:600;
+}
+.lb-top button:hover { background: rgba(255,255,255,.3); }
+
+footer { text-align:center; padding:40px 15px; color:var(--muted); font-size:14px; }
+#typewriter { opacity:.85; font-size:1rem; }
+
+</style>
 </head>
 <body>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="overlay"></div>
-    <img id="heroSlide" src="images/DSC_5412.JPG" alt="Hero Slide">
-    <div class="content">
-      <h1>Our Memories</h1>
-      <p id="typewriter"></p>
-      <button class="btn btn-cta" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Explore Photos ✨</button>
-    </div>
-  </section>
-
-  <!-- GALLERY SECTION -->
-  <section>
-    <div class="container text-center my-4">
-      <h2>Captured Moments</h2>
-      <p class="text-muted">Tap any photo • swipe left/right</p>
-    </div>
-    <div id="gallery" class="gallery container"></div>
-  </section>
-
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <div class="lb-top">
-      <button onclick="closeLB()">Close</button>
-      <button id="downloadBtn">Download</button>
-    </div>
-    <img id="lbImg" alt="">
+<section class="hero">
+  <div>
+    <h1>Our Memories</h1>
+    <p>A little gallery of moments that mean the world to me.</p>
+    <a href="#gallery" class="cta">Tap to Explore ✨</a>
   </div>
+</section>
 
-  <footer>
-    <p>Made with 💖 & memories captured forever.</p>
-  </footer>
+<section class="section">
+  <div class="title">
+    <h2>Captured Moments</h2>
+    <span>Tap any photo • swipe left/right</span>
+  </div>
+  <div id="gallery" class="gallery"></div>
+</section>
 
-  <!-- SCRIPTS -->
-  <script>
-    // Images array
-    const images = [
-      "DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG","DSC_5477.JPG","DSC_5491.JPG","DSC_5498.JPG"
-      // Add all your image filenames here
-    ];
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox">
+  <div class="lb-top">
+    <button onclick="closeLB()">Close</button>
+    <div id="counter"></div>
+    <button onclick="downloadImg()">Download</button>
+  </div>
+  <img id="lbImg" alt="">
+</div>
 
-    // -------- TYPEWRITER EFFECT --------
-    const message = "A day we dressed up, laughed too much, and made memories we'll keep forever.";
-    let i = 0;
-    function typeWriter() {
-      if (i < message.length) {
-        document.getElementById("typewriter").innerHTML += message.charAt(i);
-        i++;
-        setTimeout(typeWriter, 40);
-      }
-    }
-    window.addEventListener('load', typeWriter);
+<!-- SLIDESHOW -->
+<div id="slideshow">
+  <img id="slideImg" alt="">
+  <button onclick="stopSlideshow()" style="position:absolute;top:20px;right:20px;padding:10px 18px;border:none;border-radius:20px;background:white;color:black;font-weight:600;cursor:pointer;">Close</button>
+</div>
 
-    // -------- HERO SLIDESHOW --------
-    let heroIndex = 0;
-    const heroSlide = document.getElementById('heroSlide');
-    function nextHeroSlide() {
-      heroIndex = (heroIndex + 1) % images.length;
-      heroSlide.style.opacity = 0;
-      setTimeout(() => {
-        heroSlide.src = `images/${images[heroIndex]}`;
-        heroSlide.style.opacity = 1;
-      }, 500);
-    }
-    setInterval(nextHeroSlide, 5000);
+<div class="text-center my-4">
+  <button onclick="startSlideshow()" class="btn btn-light btn-lg">▶ Watch The Shoot</button>
+</div>
 
-    // -------- GALLERY & LIGHTBOX --------
-    const gallery = document.getElementById('gallery');
-    const lb = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lbImg');
-    let index = 0;
+<footer>
+  <p id="typewriter"></p>
+</footer>
 
-    images.forEach((img, i) => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      const im = document.createElement('img');
-      im.src = `images/${img}`;
-      card.appendChild(im);
-      card.addEventListener('click', () => openLB(i));
-      gallery.appendChild(card);
-    });
+<script>
+// All images
+const images = [
+"DSC_5412.JPG","DSC_5438.JPG","DSC_5443.JPG","DSC_5477.JPG","DSC_5491.JPG","DSC_5498.JPG",
+"DSC_5526.JPG","DSC_5540.JPG","DSC_5553.JPG","DSC_5568.JPG","DSC_5571.JPG","DSC_5601.JPG",
+"DSC_5609.JPG","DSC_5611.JPG","DSC_5617.JPG","DSC_5631.JPG","DSC_5654.JPG","DSC_5670.JPG",
+"DSC_5676.JPG","DSC_5690.JPG","DSC_5705.JPG","DSC_5709 (2).JPG","DSC_5709.JPG",
+"DSC_5716.JPG","DSC_5729.JPG","DSC_5734 (2).JPG","DSC_5734.JPG","DSC_5741.JPG",
+"DSC_5756.JPG","DSC_5758.JPG","DSC_5779.JPG","DSC_5785.JPG","DSC_4633.JPG",
+"DSC_4639.JPG","DSC_4652.JPG","DSC_4668.JPG","DSC_4676.JPG","DSC_4699.JPG",
+"DSC_4710.JPG","DSC_4718.JPG","DSC_4738.JPG","DSC_4751.JPG","DSC_4755.JPG",
+"DSC_4762.JPG","DSC_4771.JPG","DSC_4777.JPG","DSC_4786.JPG","DSC_4793.JPG",
+"DSC_4818.JPG","DSC_4841.JPG","DSC_4847.JPG","DSC_4862.JPG","DSC_4875.JPG",
+"DSC_4893.JPG","DSC_4915 - Copy.JPG","DSC_4915.JPG","DSC_4940.JPG","DSC_4968.JPG",
+"DSC_4978.JPG","DSC_4993.JPG","DSC_5028.JPG","DSC_5048.JPG","DSC_5052.JPG",
+"DSC_5056.JPG","DSC_5078.JPG","DSC_5088.JPG","DSC_5103.JPG","DSC_5119 - Copy.JPG",
+"DSC_5119.JPG","DSC_5140.JPG","DSC_5150.JPG","DSC_5159.JPG","DSC_5170.JPG",
+"DSC_5178.JPG","DSC_5190.JPG","DSC_5207.JPG","DSC_5227.JPG","DSC_5244.JPG",
+"DSC_5253.JPG","DSC_5266.JPG","DSC_5290.JPG","DSC_5302.JPG","DSC_5315.JPG",
+"DSC_5323.JPG","DSC_5324.JPG","DSC_5337.JPG","DSC_5340.JPG","DSC_5355.JPG",
+"DSC_5379.JPG","DSC_5387.JPG"
+];
 
-    function openLB(i){
-      index = i;
-      lbImg.src = `images/${images[index]}`;
-      lb.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeLB(){
-      lb.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+const gallery = document.getElementById('gallery');
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const counter = document.getElementById('counter');
+let index = 0;
 
-    // Swipe support for mobile
-    let startX = 0;
-    lb.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true});
-    lb.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) {
-        index = dx < 0 ? Math.min(index+1, images.length-1) : Math.max(index-1,0);
-        lbImg.src = `images/${images[index]}`;
-      }
-    });
+// Build gallery cards
+images.forEach((img,i)=>{
+  const div = document.createElement('div'); div.className='card';
+  const im = document.createElement('img'); im.src=`images/${img}`; im.alt=img; im.loading='lazy';
+  div.appendChild(im);
+  div.addEventListener('click',()=>openLB(i));
+  gallery.appendChild(div);
+});
 
-    // Download button
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.href = lbImg.src;
-      a.download = images[index];
-      a.click();
-    });
+function openLB(i){
+  index=i; updateLB(); lb.style.display='flex'; document.body.style.overflow='hidden';
+}
+function closeLB(){ lb.style.display='none'; document.body.style.overflow=''; }
+function updateLB(){ lbImg.src=`images/${images[index]}`; counter.textContent=`${index+1} / ${images.length}`; }
+function downloadImg(){ const a=document.createElement('a'); a.href=lbImg.src; a.download=images[index]; a.click(); }
 
-    // Disable right-click
-    window.addEventListener('contextmenu', e => e.preventDefault());
-  </script>
+// Swipe support
+let startX=0;
+lb.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
+lb.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-startX;
+  if(Math.abs(dx)>40){ index=dx<0?Math.min(index+1,images.length-1):Math.max(index-1,0); updateLB(); }
+});
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+// Close on background click
+lb.addEventListener('click',e=>{if(e.target===lb) closeLB();});
+
+// -------- Slideshow --------
+let slideIndex=0, slideInterval=null;
+const slideDiv=document.getElementById('slideshow'), slideImg=document.getElementById('slideImg');
+
+function startSlideshow(){
+  slideDiv.style.display='flex'; slideIndex=0; showSlide(); 
+  slideInterval=setInterval(nextSlide,3500);
+}
+function showSlide(){
+  slideImg.style.opacity=0; setTimeout(()=>{slideImg.src=`images/${images[slideIndex]}`; slideImg.style.opacity=1;},500);
+}
+function nextSlide(){ slideIndex=(slideIndex+1)%images.length; showSlide(); }
+function stopSlideshow(){ clearInterval(slideInterval); slideDiv.style.display='none'; }
+
+// -------- Typewriter Bio --------
+const message="A day we dressed up, laughed too much, and made memories we'll keep forever.";
+let i=0;
+function typeWriter(){ if(i<message.length){ document.getElementById("typewriter").innerHTML+=message.charAt(i); i++; setTimeout(typeWriter,40); }}
+window.addEventListener('load',typeWriter);
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
